@@ -1,0 +1,44 @@
+[
+  {
+    "name": "product1",
+    "id": 1,
+    "qty": 10,
+    "brand": "samsung"
+  },
+  {
+    "name": "product 2",
+    "id": 2,
+    "qty": 101,
+    "brand": "lg"
+  },
+  {
+    "name": "product 3",
+    "id": 3,
+    "qty": 1,
+    "brand": "realme"
+  },
+  {
+    "name": "product 4",
+    "id": 4,
+    "qty": 10,
+    "brand": "xiomi"
+  },
+  {
+    "name": "product 5",
+    "id": 5,
+    "qty": 10,
+    "brand": "redmi"
+  },
+  {
+    "name": "product 6",
+    "id": 6,
+    "qty": 15,
+    "brand": "samsung"
+  },
+  {
+    "name": "product 7",
+    "id": 7,
+    "qty": 10,
+    "brand": "acer"
+  }
+]
