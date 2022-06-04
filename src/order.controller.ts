@@ -29,13 +29,13 @@ export class OrderController {
     type: [CreateOrderRequestDTO],
   })
   @ApiResponse({
-    type: [CreateOrderResponseDTO],
+    type: CreateOrderResponseDTO,
   })
   @Post('order')
   createOrder(
     @Res() response: Response,
     @Body() body: CreateOrderRequestDTO[],
-  ): CreateOrderResponseDTO[] | any {
+  ): CreateOrderResponseDTO | any {
     const responseData = this.orderService.createOrder(body);
     if (!responseData) return response.status(HttpStatus.BAD_REQUEST).json();
     return response.status(HttpStatus.CREATED).json(responseData);

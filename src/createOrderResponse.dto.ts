@@ -1,11 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { CreateOrderedProductResponse } from './createOrderedProductResponse';
 import { IOrderedProductResponse } from './IOrderedProductResponse';
-import { ProductDTO } from './product.dto';
 
 export class CreateOrderResponseDTO implements IOrderedProductResponse {
-  @ApiProperty({ type: ProductDTO })
-  product: ProductDTO;
+  @ApiProperty({ type: [CreateOrderedProductResponse] })
+  products: CreateOrderedProductResponse[];
 
-  @ApiProperty({ type: Number })
-  qty: number;
+  @ApiProperty()
+  finalAmount: number;
+
+  @ApiProperty()
+  id: string;
 }

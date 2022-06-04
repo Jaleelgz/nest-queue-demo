@@ -1,9 +1,13 @@
 export interface IOrderedProductResponse {
-  qty: number;
-  product: {
-    name: string;
+  products: {
     qty: number;
-    brand: string;
-    id: number;
-  };
+    product: {
+      name: string;
+      qty: number;
+      brand: string;
+      id: number;
+    };
+  }[];
+  finalAmount: number;
+  id: string;
 }

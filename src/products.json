@@ -3,42 +3,49 @@
     "name": "product1",
     "id": 1,
     "qty": 10,
-    "brand": "samsung"
+    "brand": "samsung",
+    "price": 25
   },
   {
     "name": "product 2",
     "id": 2,
     "qty": 101,
-    "brand": "lg"
+    "brand": "lg",
+    "price": 250
   },
   {
     "name": "product 3",
     "id": 3,
     "qty": 1,
-    "brand": "realme"
+    "brand": "realme",
+    "price": 258
   },
   {
     "name": "product 4",
     "id": 4,
     "qty": 10,
-    "brand": "xiomi"
+    "brand": "xiomi",
+    "price": 215
   },
   {
     "name": "product 5",
     "id": 5,
     "qty": 10,
-    "brand": "redmi"
+    "brand": "redmi",
+    "price": 125
   },
   {
     "name": "product 6",
     "id": 6,
     "qty": 15,
-    "brand": "samsung"
+    "brand": "samsung",
+    "price": 65
   },
   {
     "name": "product 7",
     "id": 7,
     "qty": 10,
-    "brand": "acer"
+    "brand": "acer",
+    "price": 85
   }
 ]

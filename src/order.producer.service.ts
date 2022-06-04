@@ -7,7 +7,7 @@ import { IOrderedProductResponse } from './IOrderedProductResponse';
 export class OrderProducerService {
   constructor(@InjectQueue('order-queue') private queue: Queue) {}
 
-  async addOrderJobToQueue(orderList: IOrderedProductResponse[]) {
+  async addOrderJobToQueue(orderList: IOrderedProductResponse) {
     await this.queue.add('order', orderList);
   }
 }

@@ -1,10 +1,9 @@
 import {
   BadRequestException,
-  Inject,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { isArray } from 'class-validator';
+import { randomUUID } from 'node:crypto';
 import { CreateOrderRequestDTO } from './createOrderRequest.dto';
 import { CreateOrderResponseDTO } from './createOrderResponse.dto';
 import { IOrderedProductResponse } from './IOrderedProductResponse';
@@ -25,10 +24,11 @@ export class OrderService {
 
   createOrder(
     createOrderRequestDTO: CreateOrderRequestDTO[],
-  ): CreateOrderResponseDTO[] {
+  ): CreateOrderResponseDTO {
     if (createOrderRequestDTO.length === 0)
       throw new BadRequestException('Length should not be zero');
-    const orderedProducts: IOrderedProductResponse[] = [];
+    const orderedProducts = [];
+    let finalAmount = 0;
     createOrderRequestDTO.map((order) => {
       const orderedProduct = products.find(
         (product) => product.id === order.productId,
@@ -39,12 +39,18 @@ export class OrderService {
       if (!(order.qty <= orderedProduct.qty)) {
         throw new BadRequestException('Product not in stock');
       }
+      finalAmount += orderedProduct.price * order.qty;
       orderedProducts.push({
         qty: order.qty,
         product: orderedProduct,
       });
     });
-    this.orderProducerService.addOrderJobToQueue(orderedProducts);
-    return orderedProducts;
+    const orderData = {
+      products: orderedProducts,
+      finalAmount: finalAmount,
+      id: randomUUID(),
+    };
+    this.orderProducerService.addOrderJobToQueue(orderData);
+    return orderData;
   }
 }
