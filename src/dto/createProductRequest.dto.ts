@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ProductDTO {
+export class CreateProductRequestDTO {
   @ApiProperty()
   name: string;
 
@@ -9,9 +9,6 @@ export class ProductDTO {
 
   @ApiProperty()
   brand: string;
-
-  @ApiProperty()
-  id: number;
 
   @ApiProperty()
   price: number;

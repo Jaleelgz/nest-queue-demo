@@ -5,7 +5,9 @@ import { IOrderedProductResponse } from './IOrderedProductResponse';
 
 @Injectable()
 export class OrderProducerService {
-  constructor(@InjectQueue('order-queue') private queue: Queue) {}
+  constructor(
+    @InjectQueue('order-queue') private queue: Queue,
+  ) {}
 
   async addOrderJobToQueue(orderList: IOrderedProductResponse) {
     await this.queue.add('order', orderList);

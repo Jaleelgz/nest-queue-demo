@@ -1,9 +1,11 @@
 import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
-import { CreateOrderRequestDTO } from './createOrderRequest.dto';
-import { CreateOrderResponseDTO } from './createOrderResponse.dto';
+import { CreateOrderRequestDTO } from './dto/createOrderRequest.dto';
+import { CreateOrderResponseDTO } from './dto/createOrderResponse.dto';
+import { CreateProductRequestDTO } from './dto/createProductRequest.dto';
 import { OrderService } from './order.service';
+import { ProductDTO } from './dto/product.dto';
 
 @Controller('order')
 @ApiTags('Order')
@@ -18,10 +20,22 @@ export class OrderController {
 
   @ApiOperation({ description: 'Return all products' })
   @Get('allProducts')
-  getAllProducts(@Res() response: Response): any {
-    const responseData = this.orderService.getAllProducts();
-    if (!responseData) return response.status(HttpStatus.BAD_REQUEST).json();
-    return response.status(HttpStatus.OK).json(responseData);
+  getAllProducts(): Promise<ProductDTO[]> {
+    return this.orderService.getAllProducts();
+  }
+
+  @ApiOperation({ description: 'create new product' })
+  @ApiBody({
+    type: CreateProductRequestDTO,
+  })
+  @ApiResponse({
+    type: ProductDTO,
+  })
+  @Post('product')
+  async createProduct(
+    @Body() body: CreateProductRequestDTO,
+  ): Promise<ProductDTO> {
+    return this.orderService.createProduct(body);
   }
 
   @ApiOperation({ description: 'Return order list' })
@@ -32,12 +46,9 @@ export class OrderController {
     type: CreateOrderResponseDTO,
   })
   @Post('order')
-  createOrder(
-    @Res() response: Response,
+  async createOrder(
     @Body() body: CreateOrderRequestDTO[],
-  ): CreateOrderResponseDTO | any {
-    const responseData = this.orderService.createOrder(body);
-    if (!responseData) return response.status(HttpStatus.BAD_REQUEST).json();
-    return response.status(HttpStatus.CREATED).json(responseData);
+  ): Promise<CreateOrderResponseDTO> {
+    return this.orderService.createOrder(body);
   }
 }

@@ -1,4 +1,4 @@
-export interface IOrderedProductResponse {
+export class OrderCreatedEvent {
   products: {
     qty: number;
     product: {
