@@ -11,4 +11,5 @@ export interface IOrderedProductResponse {
   }[];
   finalAmount: number;
   id: string;
+  userId: string;
 }

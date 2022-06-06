@@ -1,16 +1,20 @@
-import { Body, Controller, Get, HttpStatus, Post, Res } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Sse } from '@nestjs/common';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
-import { Response } from 'express';
 import { CreateOrderRequestDTO } from './dto/createOrderRequest.dto';
 import { CreateOrderResponseDTO } from './dto/createOrderResponse.dto';
 import { CreateProductRequestDTO } from './dto/createProductRequest.dto';
 import { OrderService } from './order.service';
 import { ProductDTO } from './dto/product.dto';
+import { SseService } from './sse.service';
+import { Observable } from 'rxjs';
 
 @Controller('order')
 @ApiTags('Order')
 export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+  constructor(
+    private readonly orderService: OrderService,
+    private readonly sseService: SseService,
+  ) {}
 
   @ApiOperation({ description: 'Return all products' })
   @Get('allProducts')
@@ -40,15 +44,20 @@ export class OrderController {
 
   @ApiOperation({ description: 'Create new order' })
   @ApiBody({
-    type: [CreateOrderRequestDTO],
+    type: CreateOrderRequestDTO,
   })
   @ApiResponse({
     type: CreateOrderResponseDTO,
   })
   @Post('order')
   async createOrder(
-    @Body() body: CreateOrderRequestDTO[],
+    @Body() body: CreateOrderRequestDTO,
   ): Promise<CreateOrderResponseDTO> {
     return this.orderService.createOrder(body);
+  }
+
+  @Sse('sse/:userId')
+  sse(@Param('userId') userId: string) {
+    return this.sseService.subscribeOrderCreatedEvent(userId);
   }
 }

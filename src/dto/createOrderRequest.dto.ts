@@ -1,14 +1,25 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { Type } from 'class-transformer';
+import {
+  IsArray,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
+import { CreateOrderProductsRequestDTO } from './createOrderProductsRequest.dto';
 
 export class CreateOrderRequestDTO {
+  @ApiProperty({ type: [CreateOrderProductsRequestDTO] })
+  @IsNotEmpty()
+  @IsArray()
+  @ValidateNested()
+  @Type(() => CreateOrderProductsRequestDTO)
+  products: CreateOrderProductsRequestDTO[];
+
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
-  productId: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @IsNumber()
-  qty: number;
+  @IsUUID('4')
+  userId: string;
 }

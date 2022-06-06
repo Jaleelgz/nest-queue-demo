@@ -32,13 +32,13 @@ export class OrderService {
   }
 
   async createOrder(
-    createOrderRequestDTO: CreateOrderRequestDTO[],
+    createOrderRequestDTO: CreateOrderRequestDTO,
   ): Promise<CreateOrderResponseDTO> {
-    if (createOrderRequestDTO.length === 0)
+    if (createOrderRequestDTO?.products.length === 0)
       throw new BadRequestException('Length should not be zero');
     const orderedProducts = [];
     let finalAmount = 0;
-    for (let order of createOrderRequestDTO) {
+    for (let order of createOrderRequestDTO.products) {
       const orderedProduct = await this.orderRepository.findProductById(
         order.productId,
       );
@@ -55,6 +55,7 @@ export class OrderService {
       });
     }
     const orderData = {
+      userId: createOrderRequestDTO.userId,
       products: orderedProducts,
       finalAmount: finalAmount,
       id: randomUUID(),

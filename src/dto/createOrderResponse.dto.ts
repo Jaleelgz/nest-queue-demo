@@ -11,4 +11,7 @@ export class CreateOrderResponseDTO implements IOrderedProductResponse {
 
   @ApiProperty()
   id: string;
+
+  @ApiProperty()
+  userId: string;
 }

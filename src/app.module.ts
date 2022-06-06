@@ -2,6 +2,8 @@ import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { OrderSchema, OrderSchemaObject } from './db/order.schema';
 import { ProductSchema, ProductSchemaObject } from './db/product.schema';
 import { OrderCreatedEventHandler } from './event/orderCreatedEvent.handler';
@@ -10,6 +12,7 @@ import { OrderController } from './order.controller';
 import { OrderProducerService } from './order.producer.service';
 import { OrderRepository } from './order.repository';
 import { OrderService } from './order.service';
+import { SseService } from './sse.service';
 
 @Module({
   imports: [
@@ -40,10 +43,14 @@ import { OrderService } from './order.service';
         collection: 'products',
       },
     ]),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'client'),
+    }),
   ],
   controllers: [OrderController],
   providers: [
     OrderService,
+    SseService,
     OrderProducerService,
     OrderConsumer,
     OrderRepository,

@@ -14,6 +14,9 @@ export class OrderSchema {
   @Prop({ required: true, unique: true, type: String })
   id: string;
 
+  @Prop({ required: true, type: String })
+  userId: string;
+
   @Prop({ required: true, type: [OrderProductsSchemaObject] })
   products: OrderProductsSchema[];
 }
