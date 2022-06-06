@@ -7,12 +7,9 @@ import { randomUUID } from 'node:crypto';
 import { CreateOrderRequestDTO } from './dto/createOrderRequest.dto';
 import { CreateOrderResponseDTO } from './dto/createOrderResponse.dto';
 import { CreateProductRequestDTO } from './dto/createProductRequest.dto';
-import { ProductSchema } from './db/product.schema';
-import { IOrderedProductResponse } from './IOrderedProductResponse';
 import { OrderProducerService } from './order.producer.service';
 import { OrderRepository } from './order.repository';
 import { ProductDTO } from './dto/product.dto';
-import * as products from './products.json';
 
 @Injectable()
 export class OrderService {
@@ -21,12 +18,12 @@ export class OrderService {
     private readonly orderRepository: OrderRepository,
   ) {}
 
-  getHello(): string {
-    return 'Hello World!';
-  }
-
   getAllProducts(): Promise<ProductDTO[]> {
     return this.orderRepository.findAllProducts();
+  }
+
+  getAllOrders(): Promise<CreateOrderResponseDTO[]> {
+    return this.orderRepository.findAllOrders();
   }
 
   async createProduct(product: CreateProductRequestDTO): Promise<ProductDTO> {

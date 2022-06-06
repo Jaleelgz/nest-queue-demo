@@ -1,5 +1,5 @@
 import { Process, Processor } from '@nestjs/bull';
-import { EventEmitter2 } from '@nestjs/event-emitter';
+import { EventBus } from '@nestjs/cqrs';
 import { InjectConnection } from '@nestjs/mongoose';
 import { Job } from 'bull';
 import mongoose from 'mongoose';
@@ -12,7 +12,7 @@ export class OrderConsumer {
   constructor(
     private readonly orderRepository: OrderRepository,
     @InjectConnection() private readonly connection: mongoose.Connection,
-    private eventEmitter: EventEmitter2,
+    private readonly eventBus: EventBus,
   ) {}
   @Process('order')
   async readOrder(orderJob: Job<IOrderedProductResponse>) {
@@ -20,22 +20,17 @@ export class OrderConsumer {
     orderSession.startTransaction();
     try {
       for (const orderProduct of orderJob.data.products) {
-        const productRes = await this.orderRepository.updateProductQuantity(
+        await this.orderRepository.updateProductQuantity(
           orderProduct.product.id,
           orderProduct.product.qty - orderProduct.qty,
           orderSession,
         );
       }
-      const orderRes = await this.orderRepository.createOrder(
-        orderJob.data,
-        orderSession,
-      );
+      await this.orderRepository.createOrder(orderJob.data, orderSession);
       await orderSession.commitTransaction();
-
-      let orderCreatedEvent = new OrderCreatedEvent();
-      orderCreatedEvent = orderJob.data;
-      this.eventEmitter.emit('order.created', orderCreatedEvent);
+      this.eventBus.publish(new OrderCreatedEvent(orderJob.data));
     } catch (error) {
+      console.log('error', error);
       await orderSession.abortTransaction();
     } finally {
       await orderSession.endSession();

@@ -1,14 +1,5 @@
+import { CreateOrderResponseDTO } from 'src/dto/createOrderResponse.dto';
+
 export class OrderCreatedEvent {
-  products: {
-    qty: number;
-    product: {
-      name: string;
-      qty: number;
-      brand: string;
-      id: string;
-      price: number;
-    };
-  }[];
-  finalAmount: number;
-  id: string;
+  constructor(public readonly order: CreateOrderResponseDTO) {}
 }

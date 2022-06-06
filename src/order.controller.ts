@@ -12,16 +12,16 @@ import { ProductDTO } from './dto/product.dto';
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @ApiOperation({ description: 'Return hello world' })
-  @Get()
-  getHello(): string {
-    return this.orderService.getHello();
-  }
-
   @ApiOperation({ description: 'Return all products' })
   @Get('allProducts')
   getAllProducts(): Promise<ProductDTO[]> {
     return this.orderService.getAllProducts();
+  }
+
+  @ApiOperation({ description: 'Return all orders' })
+  @Get('allOrders')
+  getAllOrders(): Promise<CreateOrderResponseDTO[]> {
+    return this.orderService.getAllOrders();
   }
 
   @ApiOperation({ description: 'create new product' })
@@ -38,7 +38,7 @@ export class OrderController {
     return this.orderService.createProduct(body);
   }
 
-  @ApiOperation({ description: 'Return order list' })
+  @ApiOperation({ description: 'Create new order' })
   @ApiBody({
     type: [CreateOrderRequestDTO],
   })

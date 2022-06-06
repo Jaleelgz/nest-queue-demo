@@ -47,11 +47,11 @@ export class OrderRepository {
     return this.productModel.findOne({ id: productId }).exec();
   }
 
-  async findOrderById(orderId: string): Promise<OrderSchema> {
+  async findOrderById(orderId: string): Promise<CreateOrderResponseDTO> {
     return this.orderModel.findOne({ id: orderId }).exec();
   }
 
-  async findAllOrders(): Promise<OrderSchema[]> {
+  async findAllOrders(): Promise<CreateOrderResponseDTO[]> {
     return this.orderModel.find().exec();
   }
 }
