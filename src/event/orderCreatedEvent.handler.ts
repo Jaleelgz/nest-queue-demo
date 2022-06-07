@@ -9,6 +9,6 @@ export class OrderCreatedEventHandler
   constructor(private readonly sseService: SseService) {}
   public handle(event: OrderCreatedEvent) {
     console.log('OrderCreatedEvent', event.order);
-    this.sseService.emitOrderCreatedEvent(event.order);
+    this.sseService.emitOrderEvent(event.order, 'Order Created successfully');
   }
 }

@@ -6,7 +6,7 @@ import { CreateProductRequestDTO } from './dto/createProductRequest.dto';
 import { OrderService } from './order.service';
 import { ProductDTO } from './dto/product.dto';
 import { SseService } from './sse.service';
-import { Observable } from 'rxjs';
+import { interval, map, Observable } from 'rxjs';
 
 @Controller('order')
 @ApiTags('Order')
@@ -58,6 +58,8 @@ export class OrderController {
 
   @Sse('sse/:userId')
   sse(@Param('userId') userId: string) {
-    return this.sseService.subscribeOrderCreatedEvent(userId);
+    console.log('userId', userId);
+    return this.sseService.subscribeOrderEvent(userId);
+    // return interval(1000).pipe(map((_) => ({ data: { hello: 'world' } })));
   }
 }

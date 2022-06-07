@@ -11,6 +11,7 @@
       );
 
       eventSource.onmessage = ({ data }) => {
+        console.log('data', data);
         const message = document.createElement('li');
         message.innerText = data;
 

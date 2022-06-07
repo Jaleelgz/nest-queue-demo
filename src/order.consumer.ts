@@ -4,6 +4,7 @@ import { InjectConnection } from '@nestjs/mongoose';
 import { Job } from 'bull';
 import mongoose from 'mongoose';
 import { OrderCreatedEvent } from './event/orderCreated.event';
+import { OrderFailedEvent } from './event/orderFailed.event';
 import { IOrderedProductResponse } from './IOrderedProductResponse';
 import { OrderRepository } from './order.repository';
 
@@ -32,6 +33,7 @@ export class OrderConsumer {
     } catch (error) {
       console.log('error', error);
       await orderSession.abortTransaction();
+      this.eventBus.publish(new OrderFailedEvent(orderJob.data));
     } finally {
       await orderSession.endSession();
     }

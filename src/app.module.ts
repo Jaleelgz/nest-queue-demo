@@ -7,6 +7,7 @@ import { join } from 'path';
 import { OrderSchema, OrderSchemaObject } from './db/order.schema';
 import { ProductSchema, ProductSchemaObject } from './db/product.schema';
 import { OrderCreatedEventHandler } from './event/orderCreatedEvent.handler';
+import { OrderFailedEventHandler } from './event/orderFailedEvent.handler';
 import { OrderConsumer } from './order.consumer';
 import { OrderController } from './order.controller';
 import { OrderProducerService } from './order.producer.service';
@@ -55,6 +56,7 @@ import { SseService } from './sse.service';
     OrderConsumer,
     OrderRepository,
     OrderCreatedEventHandler,
+    OrderFailedEventHandler,
   ],
 })
 export class AppModule {}

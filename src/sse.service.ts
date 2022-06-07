@@ -11,11 +11,12 @@ export class SseService {
     this.emitter = new EventEmitter();
   }
 
-  subscribeOrderCreatedEvent(userId: string) {
+  subscribeOrderEvent(userId: string) {
     return fromEvent(this.emitter, userId);
   }
 
-  async emitOrderCreatedEvent(data: CreateOrderResponseDTO) {
-    this.emitter.emit(data.userId, data);
+  async emitOrderEvent(data: CreateOrderResponseDTO, message: string) {
+    const resData = { ...data, message: message };
+    this.emitter.emit(data.userId, JSON.stringify(resData));
   }
 }
